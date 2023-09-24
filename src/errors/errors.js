@@ -1,0 +1,1 @@
+export const responseError = new Error("There was an error trying to fetching the data");
