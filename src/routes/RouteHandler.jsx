@@ -3,6 +3,7 @@ import Home from "../pages/Home";
 import TrainerProfile from "../pages/TrainerProfile.jsx";
 import PublicLayout from "../layouts/PublicLayout";
 import PokeInfo from "../pages/PokeInfo.jsx";
+import Error404 from "../components/shared/Error404";
 
 const RouteHandler = () => {
   return (
@@ -12,6 +13,7 @@ const RouteHandler = () => {
           <Route index element={<Home />} />
           <Route path={"trainer-profile"} element={<TrainerProfile />} />
           <Route path={"poke-info/:id"} element={<PokeInfo />} />
+          <Route path={"*"} element={<Error404 />} />
         </Route>
       </Routes>
     </div>
