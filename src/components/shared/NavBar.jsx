@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BsFillMoonStarsFill } from "react-icons/bs";
+import {TbLogout2} from "react-icons/tb"
 import { useDispatch, useSelector } from "react-redux";
 import { trainerSlice } from "../../store/slices/trainer.slice";
 import homeIcon from "../../assets/homeIcon.png"
@@ -47,12 +48,13 @@ const NavBar = () => {
 
 
   return (
-    <div className="sticky top-0 w-full h-16 bg-red-500 dark:bg-slate-950 flex justify-between px-5 items-center dark:text-white z-50">
-      <div> <Link to={'/'}><figure><img src={homeIcon} alt="" className="w-10 h-10"/></figure></Link></div>
+    <div className="sticky top-0 w-full h-16 bg-red-500 dark:bg-slate-950 flex justify-between p-5 md:px-16 items-center dark:text-white z-50">
+      <div> <Link to={'/'}><figure><img src={homeIcon} alt="" className="w-10 h-10"/></figure></Link><div><Link to={'/'}> <h3 className="text-white text-xs font-bold text-center">HOME</h3> </Link></div></div>
+      
       <div className="flex items-center gap-5">
         {trainer
           && <div className={`tooltip tooltip-bottom tooltip-${tooltip}`} data-tip="Click to log out">
-          <p className="text-lg text-white underline cursor-pointer" onMouseEnter={activateToltip} onMouseLeave={deactivateToltip} onClick={logOutrainer}>Log out</p>
+          <p className="text-lg text-white underline cursor-pointer" onMouseEnter={activateToltip} onMouseLeave={deactivateToltip} onClick={logOutrainer}><TbLogout2 className="text-2xl" /></p>
         </div>
         }
         <button

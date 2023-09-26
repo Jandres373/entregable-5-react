@@ -19,7 +19,7 @@ const AuthUser = () => {
       <div className="w-full h-screen flex flex-col justify-center items-center gap-5">
       <Lotties />
       <h2 className="text-2xl font-bold bg-gradient-to-bl from-slate-500 to-red-500 bg-clip-text text-transparent">Welcome Trainer </h2>
-        <h3 className="text-xl">In order to continue you must enter your trainer name.</h3>
+        <h3 className="text-xl dark:text-white">In order to continue you must enter your trainer name.</h3>
         <form action="" onSubmit={handleSubmit(onSubmit)} className="w-96 flex">
           <input
             {...register("name")}

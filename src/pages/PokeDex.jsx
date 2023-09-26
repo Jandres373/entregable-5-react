@@ -29,16 +29,10 @@ const PokeDex = () => {
     useFetch(typeSearchParameters);
   const [nameResponse, nameError, getNameResponse] =
     useFetch(nameSearchParameters);
+  const [alertControl,setAlertControl] = useState(false)
 
-  useEffect(() => {
-    getNameResponse(nameSearchParameters);
-  }, []);
-  useEffect(() => {
-    getTypeResponse(typeSearchParameters);
-  }, []);
-
+  
   const handleSearchName = (rhfData) => {
-    /* esta funcion debería sobreescribir la busqueda y  setear un estado que controle lo que se va a renderizar */
     dispatch(selectType.setSelectionType("name"));
     const newParameters = {
       url: "https://pokeapi.co/api/v2/",
@@ -48,18 +42,41 @@ const PokeDex = () => {
     };
     setNameSearchParameters(newParameters);
   };
+
+  const handleAlert = () => { 
+    if (nameError) {
+      setAlertControl(true)
+      setTimeout(() => {
+        setAlertControl(false)
+      }, 5000);
+    } else {
+      setAlertControl(false)
+    }
+   }
+
   const apiResponseData = {
     typeSearch: typeResponse,
     typeError: typeError,
     nameSearch: nameResponse,
     nameError: nameError,
   };
+  
+  useEffect(() => {
+    getNameResponse(nameSearchParameters);
+  }, []);
+  useEffect(() => {
+    getTypeResponse(typeSearchParameters);
+  }, []);
+  useEffect(()=>{
+    handleAlert()
+  },[nameError])
 
   if (!trainer) {
     return <Navigate to={"/"} />;
   } else {
     return (
-      <div className="w-full min-h-screen p-5 ">
+      <div className="relative w-full min-h-screen p-5 ">
+        
         <div id="form_area" className="w-full h-12">
           <h2 className="text-2xl px-10 font-bold bg-gradient-to-bl from-slate-300 to-red-500 bg-clip-text text-transparent">
             Welcome Trainer:{" "}
@@ -67,6 +84,7 @@ const PokeDex = () => {
               {trainer}!
             </span>
           </h2>
+          
         </div>
         <div
           id="form_section"
@@ -77,11 +95,16 @@ const PokeDex = () => {
             onSubmit={handleSubmit(handleSearchName)}
             className="w-full  flex"
           >
+            <div>
             <input
               className="dark:border dark:text-white dark:pl-5 pl-5 border-black rounded-l-lg w-full h-12 dark:bg-blue-950"
               type="text"
               {...register("name")}
             />
+            { <div className="w-fill bg-red-300 animate-pulse rounded-b-md">{alertControl && <p className="text-red-500 font-bold text-center">Incorrect name or id</p>}</div> }
+            
+            </div>
+
             <button className="w-28 h-12 rounded-r-lg bg-red-500 dark:bg-slate-900 text-white">
               Search
             </button>
@@ -91,10 +114,7 @@ const PokeDex = () => {
           </div>
         </div>
         <PokemonDisplayScreen apiResponseData={apiResponseData} />
-        <div className="join w-full mt-5 flex justify-center">
-          
-          
-        </div>
+        <div className="join w-full mt-5 flex justify-center"></div>
       </div>
     );
   }

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useFetch } from "../../hooks/useFetch";
+import { AnimatePresence, motion } from "framer-motion";
 
 const PokemonCard = ({ pokemon }) => {
-  
   const [apiParameters, setApiParameters] = useState({
     url: "https://pokeapi.co/api/v2/",
     path: "pokemon/",
@@ -46,7 +46,7 @@ const PokemonCard = ({ pokemon }) => {
 
   const textColorization = {
     normal: "text-gray-500",
-    fighting: "text-red-600",
+    fighting: "text-gray-600",
     poison: "text-violet-800",
     ground: "text-red-800",
     rock: "text-gray-600",
@@ -66,53 +66,73 @@ const PokemonCard = ({ pokemon }) => {
   };
 
   return (
-    <div className="">
+    <motion.div className="" initial={{ scale: 0 }}
+    animate={{ scale: 1 }}
+    exit={{ scale: 0 }}>
       <Link to={`/poke-info/${apiResponse?.data.id}`}>
-      <div
-        className={`card relative w-80 shadow-xl p-2 ${
-          colorization[pokemonInfo?.types[0]?.type?.name]
-        } dark:text-white dark:bg-gradient-to-t dark:from-transparent dark:to-transparent`}
-      >
-        <figure>
-          <img
-            className="absolute top-11 w-36 h-36"
-            src={pokemonInfo?.sprites?.other.dream_world.front_default}
-            alt="Pokemon image"
-          />
-        </figure>
-        <div className="card-body mt-36  bg-white dark:bg-transparent dark:bg-gradient-to-bl dark:from-transparent dark:to-transparent rounded-b-lg">
-          <h2 className={`card-title mt-9 dark:text-blue-800 ${textColorization[pokemonInfo?.types[0]?.type?.name]}`}>
-            
-              {pokemonInfo?.name}
-            
-            <div
-              className={`badge ${
-                colorization[pokemonInfo?.types[0]?.type?.name]
-              }`}
-            ></div>
-            <div className="badge badge-ghost">
-              {pokemonInfo?.types[0]?.type?.name}
-            </div>
-            {pokemonInfo?.types[1]?.type?.name && (
-              <div className="badge badge-ghost">
-                {pokemonInfo?.types[1]?.type?.name}
-              </div>
+        <div
+          className={`card relative w-96 shadow-xl p-2 ${
+            colorization[pokemonInfo?.types[0]?.type?.name]
+          } dark:text-white dark:bg-gradient-to-t dark:from-transparent dark:to-transparent`}
+        >
+          <figure>
+            {pokemonInfo?.sprites?.other ? (
+               <AnimatePresence key={pokemon.id}>
+                <motion.img
+                  className="absolute top-11 w-h-36 h-36"
+                  src={
+                    pokemonInfo?.sprites?.other["official-artwork"]
+                      .front_default
+                  }
+                  alt="Pokemon image"
+                />
+             </AnimatePresence>
+            ) : (
+              <AnimatePresence key={pokemon.id}><div className="bg-gray-300 w-32 h-32 animate-pulse rounded"></div></AnimatePresence>
             )}
-          </h2>
-          {'aquiiiiiiiiiiiiiiiiiiiiiiiiiii'} <br />
-          {'aquiiiiiiiiiiiiiiiiiiiiiiiiiii'} <br />
-          {'aquiiiiiiiiiiiiiiiiiiiiiiiiiii'} <br />
-          {'aquiiiiiiiiiiiiiiiiiiiiiiiiiii'} <br />
-          {'aquiiiiiiiiiiiiiiiiiiiiiiiiiii'} <br />
-          {'aquiiiiiiiiiiiiiiiiiiiiiiiiiii'} <br />
-          {'aquiiiiiiiiiiiiiiiiiiiiiiiiiii'} <br />
-          <p>stats of the pokemons</p>
-          <div className="card-actions justify-end">
+          </figure>
+          <div className="card-body mt-36  bg-white dark:bg-transparent dark:bg-gradient-to-bl dark:from-transparent dark:to-transparent rounded-b-lg">
+            <h2
+              className={`card-title mt-9 uppercase ${
+                textColorization[pokemonInfo?.types[0]?.type?.name]
+              }`}
+            >
+              {pokemonInfo?.name}
+              <div
+                className={`badge ${
+                  colorization[pokemonInfo?.types[0]?.type?.name]
+                }`}
+              ></div>
+              <div className="badge badge-ghost">
+                {pokemonInfo?.types[0]?.type?.name}
+              </div>
+              {pokemonInfo?.types[1]?.type?.name && (
+                <div className="badge badge-ghost">
+                  {pokemonInfo?.types[1]?.type?.name}
+                </div>
+              )}
+            </h2>
+            <div className="grid grid-rows-3 grid-flow-col gap-4 mt-5">
+              {pokemonInfo?.stats.map((stat, index) => (
+                <div key={index}>
+                  <p
+                    className={`flex items-center justify-center text-gray-500 uppercase text-sm  ${
+                      textColorization[pokemonInfo?.types[0]?.type?.name]
+                    }`}
+                  >
+                    {stat?.stat.name}
+                  </p>
+                  <p className="flex items-center justify-center font-bold">
+                    {stat?.base_stat}
+                  </p>
+                </div>
+              ))}
+            </div>
+            <div className="card-actions justify-end"></div>
           </div>
         </div>
-      </div>
       </Link>
-    </div>
+    </motion.div>
   );
 };
 

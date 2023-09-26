@@ -10,12 +10,12 @@ const PokemonDisplayScreen = ({apiResponseData}) => {
         <div className='w-full mt-10'>
             {searchType === 'list' && (
                 <div>
-                    <DisplayTypes type={apiResponseData?.typeSearch?.data.results} />
+                    {apiResponseData?.typeSearch &&<DisplayTypes typeResponse={apiResponseData?.typeSearch?.data.results} />}
                 </div>
             )}
             {searchType === 'name' && (
                 <div>
-                    {apiResponseData?.nameSearch ? <DisplayNames name={apiResponseData} /> : 'hola perro'}
+                    {apiResponseData?.nameSearch && <DisplayNames nameResponse={apiResponseData}  /> }
                 </div>
             )}
         </div>

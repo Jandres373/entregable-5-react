@@ -13,6 +13,7 @@
     "@lottiefiles/react-lottie-player": "^3.5.3",
     "@reduxjs/toolkit": "^1.9.5",
     "axios": "^1.5.0",
+    "framer-motion": "^10.16.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.46.2",
